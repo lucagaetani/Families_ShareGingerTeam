@@ -1,1 +1,2 @@
 # Families_ShareGingerTeam
+L’obiettivo del progetto è quello di estendere l’idea iniziale del progetto sopradescritto, che mirava all’utilizzo dell’applicazione da parte di piccoli complessi di genitori che si conoscevano, per rendere utilizzabile l’applicazione ad un numero maggiore di genitori, anche non conoscenti, garantendo però la disponibilità, e soprattutto, la sicurezza per i propri figli.
