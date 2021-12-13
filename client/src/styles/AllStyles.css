@@ -2232,15 +2232,22 @@
 /*LANDING SCREEN*/
 /****Layout Styles****/
 #landingHeaderContainer {
+  margin-top: 5.2rem;
   width: 100%;
   position: relative;
   height: 15.4rem;
   background-color: #005662;
 }
 #landingNavbarContainer {
+  z-index: 2;
   position: relative;
   height: 5.2rem;
-  background-color: #ff6f00;
+  background: linear-gradient(-45deg, #ff6f00, #d97fe9, #ff7b00, #d92bf8);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 #landingNavButtonsContainer {
   position: absolute;
@@ -2307,15 +2314,14 @@
   letter-spacing: -0.1px;
   text-decoration: none;
   text-align: left;
-  color: #000000;
+  color: #ffffff;
   position: relative;
 }
-.loginButton:hover {
+.loginButton a:hover {
   text-decoration: none;
 }
 .signupButton {
   padding-left: 3rem;
-
   font-size: 1.4rem;
   font-weight: 500;
   text-decoration: none;
@@ -2422,32 +2428,34 @@
 
 /*LOGGING SCREEN */
 #logInContainer {
+  margin-top: 40px;
   width: 92%;
-  margin: 2rem 4%;
+  margin: 5rem 4%;
+  position: relative;
+  z-index: 2;
 }
 .signUpButton {
   float: right;
   padding-left: 0.5rem;
-
   font-size: 1.4rem;
   letter-spacing: 0.1px;
-  color: #ff6f00;
+  color: #ffffff;
 }
 .dontHaveAccountText {
   font-family: "Roboto", sans-serif;
   float: left;
   font-size: 1.4rem;
   letter-spacing: 0.1px;
-  color: #000000;
+  color: #ffffffb8;
 }
 .logInButton {
   border: none;
   padding: 0 0;
   width: 100%;
-  line-height: 3.6rem;
+  line-height: 5.6rem;
   border-radius: 3px;
-  color: #ffffff;
-  height: 3.6rem;
+  color: #898989;
+  height: 5.6rem;
   text-align: center;
   margin: 1rem 0;
   font-size: 1.4rem;
@@ -2455,7 +2463,14 @@
   max-width: 45rem;
 }
 .googleColor {
-  background-color: #be1622;
+  background: white
+    url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: white;
+  border-width: thick;
 }
 .facebookColor {
   background-color: #27348b;
@@ -2470,12 +2485,16 @@
   color: #010101;
 }
 .agreeWithTermsGoogle {
+  color: #ffffffb8;
   cursor: pointer;
   display: flex;
   justify-content: center;
-  padding: 0 10%;
+  padding: 10%;
   text-align: center;
   font-size: 1.4rem;
+  position: relative;
+  bottom: 0;
+  z-index: 2;
 }
 .agreeWithTermsGoogle:hover {
   color: #1890ff;
@@ -2485,7 +2504,7 @@
   font-weight: 500;
   letter-spacing: 0.2px;
   text-align: left;
-  color: #010101;
+  color: #ffffff;
   cursor: pointer;
 }
 a:active {
@@ -2495,18 +2514,20 @@ a:active {
   width: 100%;
   border: none;
   border-radius: 3px;
-  background-color: #dcdcdc;
-  color: #808080;
-  height: 3.6rem;
+  background-color: #ffffff;
+  color: #ff6f00;
+  height: 5.6rem;
   margin-top: 2rem;
   font-size: 1.4rem;
-
-  margin-bottom: 3.6rem;
+  margin-bottom: 1rem;
   max-width: 45rem;
+}
+.logInConfirmButton:hover {
+  background-color: #f5f7f9;
 }
 .logInInputField {
   padding-left: 1.7rem !important;
-  background-color: #dcdcdc !important;
+  background-color: rgba(255, 255, 255, 0.2);
   border: none !important;
   height: 5.6rem !important;
   margin-top: 2rem !important;
@@ -2514,6 +2535,11 @@ a:active {
   font-size: 1.6rem !important;
   font-family: "Roboto", sans-serif !important;
   max-width: 45rem;
+  color: white;
+}
+.logInInputField:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
 }
 /*LOGGING SCREEN END*/
 
@@ -2664,6 +2690,14 @@ a:active {
   position: relative;
   max-height: 5rem;
 }
+#drawerMenuContainer {
+  border-top: 0px !important;
+  background: linear-gradient(-45deg, #ff6f00, #d97fe9, #ff7b00, #d92bf8);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+  border-right: 1px solid rgba(255, 255, 255, 0.47);
+}
 #drawerMenuContainer i {
   line-height: "";
   font-size: 2.5rem;
@@ -2684,6 +2718,17 @@ a:active {
 #drawerContainer {
   overflow: hidden;
 }
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 #myFamiliesShareMainContainer {
   top: 6rem;
   position: relative;
@@ -2693,11 +2738,17 @@ a:active {
 
 /*NO MATCH SCREEN*/
 #noMatchScreenContainer {
-  background-color: #ffffff;
-  width: 100%;
-  height: 100%;
+  background: linear-gradient(-45deg, #ff6f00, #d97fe9, #ff7b00, #d92bf8);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 #noMatchScreenContainer img {
+  padding-top: 40%;
   width: 100vw;
   position: relative;
   vertical-align: middle;
@@ -2706,6 +2757,7 @@ a:active {
 
 /*PENDING REQUESTS SCREEN*/
 #groupMembersRequestsContainer {
+  margin-top: 5.2rem;
   padding: 3%;
 }
 #groupMembersRequestsContainer h1 {
@@ -2769,7 +2821,7 @@ a:active {
   color: rgba(0, 0, 0, 0.9);
 }
 #termsAndPolicyMain bold {
-  color: #00838f;
+  color: #ff6f00;
   cursor: initial;
 }
 #termsAndPolicyMain p {
@@ -2786,7 +2838,7 @@ a:active {
   width: 12rem;
   border-radius: 3px;
   border: none;
-  background-color: #00838f;
+  background-color: #ff6f00;
   color: white;
 }
 
@@ -3095,12 +3147,10 @@ a:active {
 
 /*SIGN UP SCREEN*/
 #signUpContainer {
-  max-width: 45rem;
-  width: 90%;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 92%;
+  margin: 10rem 4%;
   position: relative;
-  margin-bottom: 3rem;
+  z-index: 2;
 }
 .toggleContainer {
   padding-top: 2.4rem;
@@ -3114,15 +3164,19 @@ a:active {
   padding-left: 2.5rem;
 }
 .signUpConfirmButton {
-  max-width: 45rem;
   width: 100%;
   border: none;
   border-radius: 3px;
-  background-color: #dcdcdc;
-  color: #808080;
-  height: 3rem;
-  margin-top: 5rem;
-  font-size: 1.6rem;
+  background-color: #ffffff;
+  color: #ff6f00;
+  height: 5.6rem;
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  max-width: 45rem;
+}
+.signUpConfirmButton:hover {
+  background-color: #f5f7f9;
 }
 .acceptTermsText {
   font-size: 1.5rem;
@@ -3144,30 +3198,32 @@ a:active {
   display: inline-block;
   text-align: center;
   font-size: 1.3rem;
-
   letter-spacing: 0.1px;
-  color: #010101;
+  color: #ffffffb8;
 }
 #accountQuestion {
   margin: 2rem 0;
 }
 #alreadyHaveAccount {
   padding-left: 0.5rem;
-
-  font-size: 1.2rem;
   letter-spacing: 0.1px;
-  color: #ff6f00;
+  color: #ffffff;
 }
 .signUpInputField {
-  max-width: 45rem;
-  background-color: #dcdcdc !important;
+  padding-left: 1.7rem !important;
+  background-color: rgba(255, 255, 255, 0.2);
   border: none !important;
   height: 5.6rem !important;
-  margin: 2rem 0 !important;
+  margin-top: 2rem !important;
   border-radius: 3px !important;
-  font-size: 1.5rem !important;
-  padding-left: 1.7rem !important;
+  font-size: 1.6rem !important;
   font-family: "Roboto", sans-serif !important;
+  max-width: 45rem;
+  color: white;
+}
+.signUpInputField:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
 }
 .line {
   height: 1px;
@@ -3281,4 +3337,141 @@ a:active {
 .ReactTable .rt-table .rt-thead .rt-tr .rt-th {
   height: 20;
   padding: 0;
+}
+.centro {
+  text-align: center;
+}
+
+.carousel__wrapper {
+  border-radius: 5px;
+  box-shadow: 0 1rem 2rem rgba(128, 0, 128, 0.2);
+  margin: 2rem auto;
+  overflow: hidden;
+  width: 100%;
+}
+.carousel__controls {
+  display: flex;
+}
+.carousel__container {
+  display: flex;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+.carousel__image {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  top: 0;
+  transition: all 0.15s ease-out;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+}
+.carousel__image.active {
+  opacity: 1;
+  transform: scale(1);
+}
+.carousel__button {
+  background: #f2f2f2;
+  border: 0;
+  color: purple;
+  cursor: pointer;
+  font-size: 1rem;
+  flex-grow: 1;
+  outline: none;
+  padding: 1rem;
+  transition: all 0.1s ease-out;
+}
+.carousel__button:hover {
+  background: rgba(242, 242, 242, 0.8);
+}
+.flavor-text {
+  display: block;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  margin: 1rem auto;
+  max-width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  width: 15rem;
+}
+
+.card-review img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.ratings-container {
+  display: flex;
+  margin: 20px 0;
+}
+
+.rating {
+  flex: 1;
+  cursor: pointer;
+  padding: 20px;
+  margin: 10px 5px;
+}
+
+.rating:hover,
+.rating.active {
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.384);
+}
+
+.rating small {
+  color: #555;
+  display: inline-block;
+  margin: 10px 0 0;
+}
+
+.rating:hover small,
+.rating:active small {
+  color: #111;
+}
+
+.select-dropdown {
+  position: relative;
+  background-color: #e6e6e6;
+  width: auto;
+  max-width: 100%;
+  border-radius: 3px;
+  margin-top: 2rem;
+}
+.select-dropdown select {
+  color: #495057;
+  font-family: "helvetica neue", helvetica;
+  font-size: 1.5rem;
+  font-weight: 200;
+  width: 100%;
+  padding: 8px 24px 8px 1.7rem;
+  border: none;
+  background-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5.6rem;
+}
+.select-dropdown select:active,
+.select-dropdown select:focus {
+  outline: none;
+  box-shadow: none;
+}
+.select-dropdown:after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  margin-top: -2px;
+  right: 8px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #aaa;
 }

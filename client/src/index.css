@@ -1,9 +1,19 @@
-html{
-  --fm : 1rem;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+html {
+  --fm: 1rem;
+}
+
+html * {
+  font-family: "Roboto", sans-serif;
 }
 
 body {
   margin: 0;
   padding: 0;
+  height: auto !important;
   font-family: sans-serif;
+}
+
+#uploadPhotoInput {
+  display: none;
 }
