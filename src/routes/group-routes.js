@@ -89,6 +89,29 @@ const announcementUpload = multer({
   limits: { fieldSize: 52428800 }
 })
 
+const carouselStorage = multer.diskStorage({
+  destination (req, file, cb) {
+    fs.existsSync("images/carousel/"+req.params.id) || fs.mkdirSync("images/carousel/"+req.params.id);
+    cb(null, path.join(__dirname, '../../images/carousel/'+req.params.id))
+  },
+  filename (req, file, cb) {
+    if (req.params.carousel_id === undefined) {
+      req.params.carousel_id = objectid()
+    }
+    cb(
+      null,
+      `${req.params.carousel_id}-${Date.now()}.${file.mimetype.slice(
+        file.mimetype.indexOf('/') + 1,
+        file.mimetype.length
+      )}`
+    )
+  }
+})
+const carouselUpload = multer({
+  storage: carouselStorage,
+  limits: { fieldSize: 52428800 }
+})
+
 const Image = require('../models/image')
 const Reply = require('../models/reply')
 const Group_Settings = require('../models/group-settings')
@@ -1781,6 +1804,85 @@ router.post(
   }
 )
 
+router.post(
+  '/:id/confact',
+  async (req, res, next) => {
+    if (!req.user_id) {
+      return res.status(401).send('Not authenticated')
+    }
+    const group_id = req.params.id
+    const user_id = req.user_id
+    try {
+      await nh.activityNotification(group_id, user_id)
+      res.status(200).send('Confcat was announced')
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
+router.get('/:id/carousel', (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.id
+  const user_id = req.user_id
+  User.findOne({
+    user_id
+  })
+    .then(async user => {
+      if (!user) {
+        return res.status(401).send('Unauthorized')
+      }
+
+      var ris = await Image.find({owner_id: group_id, owner_type: 'carousel'});
+      res.json(ris)
+    })
+    .catch(next)
+})
+
+router.post(
+  '/:id/carousel',
+  carouselUpload.array('photo', 3),
+  async (req, res, next) => {
+    if (!req.user_id) {
+      return res.status(401).send('Not authenticated')
+    }
+    const group_id = req.params.id
+    const user_id = req.user_id
+    const { files } = req
+    try {
+      const member = await Member.findOne({
+        group_id,
+        user_id,
+        group_accepted: true,
+        user_accepted: true
+      })
+      if (!member || !member.admin) {
+        return res.status(401).send('Unauthorized')
+      }
+      if (!(files)) {
+        return res.status(400).send('Bad Request')
+      }
+      if (files) {
+        const images = []
+        files.forEach(photo => {
+          images.push({
+            image_id: objectid(),
+            owner_type: 'carousel',
+            owner_id: group_id,
+            path: `/images/carousel/`+group_id+`/${photo.filename}`
+          })
+        })
+        await Image.create(images)
+      }
+      res.status(200).send('Image was posted')
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
 router.delete(
   '/:groupId/announcements/:announcementId',
   async (req, res, next) => {
@@ -1814,6 +1916,38 @@ router.delete(
         prefix: req.params.announcementId
       })
       res.status(200).send('announcement was deleted')
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+router.delete(
+  '/:groupId/carousel/:imageId',
+  async (req, res, next) => {
+    if (!req.user_id) {
+      return res.status(401).send('Not authenticated')
+    }
+    const imageId = req.params.imageId
+    const group_id = req.params.groupId
+    const edittingUser = await Member.findOne({
+      group_id: req.params.groupId,
+      user_id: req.user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!edittingUser) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!edittingUser.admin) {
+      return res.status(401).send('Unauthorized')
+    }
+    try {
+      await Image.deleteOne({ image_id: imageId })
+      fr('../images/carousel/'+group_id+'/', {
+        prefix: req.params.imageId
+      })
+      res.status(200).send('image was deleted')
     } catch (error) {
       next(error)
     }

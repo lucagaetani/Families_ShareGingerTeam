@@ -82,7 +82,11 @@ const en = {
       header: 'Group Activities',
       description:
         ' has removed you from timeslot '
-    }
+    },
+    {
+      header: 'Group Activities',
+      description: ' activity completed '
+    },
 
   ],
   plans: [
@@ -173,7 +177,11 @@ const it = {
       header: 'Attività del gruppo',
       description:
         ' ti ha rimosso dalla finestra temporale '
-    }
+    },
+    {
+      header: 'Attività del gruppo',
+      description: ' attività completata '
+    },
   ],
   plans: [
     {
@@ -263,7 +271,11 @@ const nl = {
       header: 'Groepsactiviteiten',
       description:
         ' heeft je uit het tijdslot verwijderd '
-    }
+    },
+    {
+      header: 'Attività del gruppo',
+      description: ' attività completata '
+    },
   ],
   plans: [
     {
@@ -365,7 +377,11 @@ const el = {
       header: 'Group Activities',
       description:
         ' σας αφαίρεσε από τη δραστηριότητα '
-    }
+    },
+    {
+      header: 'Attività del gruppo',
+      description: ' attività completata '
+    },
   ],
   plans: [
     {
@@ -466,7 +482,11 @@ const hu = {
       header: 'Csoporttevékenységek',
       description:
         ' eltávolította az időrésből '
-    }
+    },
+    {
+      header: 'Attività del gruppo',
+      description: ' attività completata '
+    },
   ],
   plans: [
     {
@@ -563,7 +583,11 @@ const fr = {
     {
       'header': 'Activités du groupe',
       'description': ' vous a supprimé du créneau horaire '
-    }
+    },
+    {
+      header: 'Attività del gruppo',
+      description: ' attività completata '
+    },
   ],
   'plans': [
     {
