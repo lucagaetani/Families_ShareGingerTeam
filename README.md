@@ -3,7 +3,6 @@ The Project consists in the development of new features to be implemented in an 
 The aim of the project is to extend the initial idea of the project described above, which aimed to use the application by small groups of parents who knew each other, to make the application usable to a greater number of parents, even non-acquaintances, while guaranteeing availability, and above all, safety for their children.
   
 Therefore, the objectives are:
-<img src="https://lluch.org/sites/lluch.org/files/images/patients-families/safe-kids/ch-safety.jpg" alt="safety" width="400"/>
 - Safety for their children, which is the main goal!
 - Availability
 - Ease of use
