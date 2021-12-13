@@ -5,7 +5,7 @@ import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
 const ProfileNavbar = ({ language, history }) => {
-  const handleActiveTab = event => {
+  const handleActiveTab = (event) => {
     const { pathname } = history.location;
     const parentPath = pathname.slice(0, pathname.lastIndexOf("/"));
     history.replace(`${parentPath}/${event.target.id}`);
@@ -19,7 +19,7 @@ const ProfileNavbar = ({ language, history }) => {
   return (
     <div id="profileNavbarContainer">
       <div className="row no-gutters">
-        <div className="col-1-2">
+        <div className="col-1-3">
           <h1
             id="info"
             className={activeTab === "info" ? "profileTabActive" : ""}
@@ -28,13 +28,22 @@ const ProfileNavbar = ({ language, history }) => {
             {texts.info}
           </h1>
         </div>
-        <div className="col-1-2">
+        <div className="col-1-3">
           <h1
             id="children"
             className={activeTab === "children" ? "profileTabActive" : ""}
             onClick={handleActiveTab}
           >
             {texts.children}
+          </h1>
+        </div>
+        <div className="col-1-3">
+          <h1
+            id="review"
+            className={activeTab === "review" ? "profileTabActive" : ""}
+            onClick={handleActiveTab}
+          >
+            REVIEWS
           </h1>
         </div>
       </div>
@@ -46,5 +55,5 @@ export default withRouter(withLanguage(ProfileNavbar));
 
 ProfileNavbar.propTypes = {
   language: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
 };
