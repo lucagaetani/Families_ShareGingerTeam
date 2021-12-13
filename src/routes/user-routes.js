@@ -76,7 +76,9 @@ const Announcement = require('../models/announcement')
 const Password_Reset = require('../models/password-reset')
 const Device = require('../models/device')
 const Rating = require('../models/rating')
+const Review = require('../models/review')
 const Community = require('../models/community')
+const { removeListener } = require('process')
 
 router.post('/', async (req, res, next) => {
   const {
@@ -437,6 +439,80 @@ router.post('/changepassword', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.get('/:id/reviews', (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  const { id } = req.params
+  Review.findOne({ user_id: id }).then(user => {
+    res.json(user)
+  }).catch(next)
+})
+
+router.post('/:id/reviews', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  try{
+  const { description, rev, userId } = req.body
+  const { id } = req.params;
+  var recensito = await User.findOne({ user_id: id });
+  var recensore = await Profile.findOne({ user_id: userId });
+  if(recensito && recensore && rev>=0 && description){
+    var recensioni = await Review.findOne({ user_id: id });
+    if (recensioni){
+      var recensione = {
+        from: recensore.user_id,
+        name: recensore.given_name + recensore.family_name,
+        text: description,
+        rate: rev
+      }
+      recensioni.reviews.push(recensione);
+      await recensioni.save()
+      res.status(200).json({new: false});
+    }else{
+      var recensioni = {
+        user_id: id,
+        reviews: []
+      }
+      var recensione = {
+        from: recensore.user_id,
+        name: recensore.name,
+        text: description,
+        rate: rev
+      }
+      recensioni.reviews.push(recensione);
+      await Review.create(recensioni)
+      res.status(200).json({new: true});
+    }
+  }else{
+    return res.status(404).send('Manca qualcosa')
+  }
+} catch (err) {
+  next(err)
+}
+})
+
+router.delete('/:profileId/reviews/:userId/:index', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  if (req.user_id !== req.params.userId) { return res.status(401).send('Unauthorized') }
+  const { profileId, userId, index } = req.params;
+  var recensito = await User.findOne({ user_id: profileId });
+  var recensore = await Profile.findOne({ user_id: userId });
+  if(recensito && recensore){
+  try {
+    var recensioni = await Review.findOne({ user_id: recensito.user_id });
+    if (recensioni){
+      recensioni.reviews.splice(index, 1);
+      await recensioni.save()
+      res.status(200).send('account deleted')
+    }else{
+      return res.status(404).send('Something went wrong!')
+    }
+  } catch (error) {
+    next(error)
+  }
+ }else{
+  return res.status(404).send('Something went wrong!')
+ }
 })
 
 router.get('/:id', (req, res, next) => {

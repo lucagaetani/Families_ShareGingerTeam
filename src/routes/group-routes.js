@@ -25,6 +25,7 @@ const nh = require('../helper-functions/notification-helpers')
 const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
 const schedule = require('node-schedule')
+var fs = require('fs');
 
 if (process.env.NODE_APP_INSTANCE === 0) {
   schedule.scheduleJob(process.env.CRONJOB, () => {
@@ -102,6 +103,24 @@ const Child = require('../models/child')
 const Profile = require('../models/profile')
 const Community = require('../models/community')
 const User = require('../models/user')
+const Category = require('../models/category')
+const { accessapproval } = require('googleapis/build/src/apis/accessapproval')
+
+router.get('/cat', async (req, res, next) => {
+  const { query } = req
+  var language = query.language
+  Category.findOne({
+    language
+  })
+    .then(async cat => {
+      if (!cat) {
+        return res.status(404).send('Not found')
+      }
+      var ris = await Category.find({language: language});
+      res.json(ris)
+    })
+    .catch(next)
+})
 
 router.get('/', (req, res, next) => {
   if (!req.user_id) return res.status(401).send('Not authenticated')
@@ -168,6 +187,7 @@ router.post('/', async (req, res, next) => {
   const {
     invite_ids,
     description,
+    category,
     location,
     name,
     visible,
@@ -179,6 +199,7 @@ router.post('/', async (req, res, next) => {
     !(
       invite_ids &&
       description &&
+      category >= 0 &&
       location &&
       name &&
       contact_type &&
@@ -200,6 +221,7 @@ router.post('/', async (req, res, next) => {
     group_id,
     name,
     description,
+    category,
     background: '#00838F',
     location,
     owner_id,
