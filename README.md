@@ -3,9 +3,10 @@ The Project consists in the development of new features to be implemented in an 
 The aim of the project is to extend the initial idea of the project described above, which aimed to use the application by small groups of parents who knew each other, to make the application usable to a greater number of parents, even non-acquaintances, while guaranteeing availability, and above all, safety for their children.
   
 Therefore, the objectives are:
-- Safety for their children <img src="https://lluch.org/sites/lluch.org/files/images/patients-families/safe-kids/ch-safety.jpg" alt="safety" width="400"/>
-- Availability <img src="https://itsm.tools/wp-content/uploads/2017/06/measure-and-report-1024x512.png" alt="availability" width="400"/>
-- Ease of use <img src="https://lockinside.com/wp-content/uploads/2019/04/easy-work.png" alt="easy" width="400"/>
+<img src="https://lluch.org/sites/lluch.org/files/images/patients-families/safe-kids/ch-safety.jpg" alt="safety" width="400"/>
+- Safety for their children, which is the main goal!
+- Availability
+- Ease of use
 
 ## Features
 
