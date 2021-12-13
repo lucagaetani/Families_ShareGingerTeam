@@ -14,38 +14,81 @@ class SearchGroupScreen extends React.Component {
       searchInput: "",
       searchedForInput: false,
       matchingGroups: [],
+      categories: [],
+      category: "All",
       groups: [],
       fetchedGroups: false,
-      searchBarIsVisible: false
+      searchBarIsVisible: false,
     };
   }
 
+  getCat() {
+    const { language } = this.props;
+    axios
+      .get("/api/groups/cat", { params: { language: language } })
+      .then((response) => {
+        var ris = response.data;
+        this.setState({ categories: ris[0].cat });
+      })
+      .catch((error) => {
+        Log.error(error);
+      });
+  }
+
   componentDidMount() {
+    this.getCat();
     axios
       .get("/api/groups?searchBy=visibility&visible=true")
-      .then(res => {
+      .then((res) => {
         const groups = res.data;
         this.setState({ fetchedGroups: true, groups });
         this.handleSearch("");
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
         this.setState({ fetchedGroups: true });
       });
   }
 
-  handleKeyPress = e => {
+  handleChange = async (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+    console.log(this.state);
+    if (value === "All") {
+      this.handleSearch("");
+    } else {
+      var index = this.state.categories.indexOf(value, 0);
+      const { groups } = this.state;
+      const matchingGroups = [];
+      groups.forEach((group) => {
+        if (group.category === index) {
+          matchingGroups.push(group.group_id);
+        }
+      });
+      this.setState({
+        searchedForInput: false,
+        matchingGroups,
+      });
+      setTimeout(() => {
+        this.setState({
+          searchedForInput: true,
+        });
+      }, 1000);
+    }
+  };
+
+  handleKeyPress = (e) => {
     const { searchInput } = this.state;
     if (e.key === "Enter") {
       this.handleSearch(searchInput);
     }
   };
 
-  handleSearch = val => {
+  handleSearch = (val) => {
     const value = val.toLowerCase().trim();
     const { groups } = this.state;
     const matchingGroups = [];
-    groups.forEach(group => {
+    groups.forEach((group) => {
       if (group.name.toLowerCase().includes(value)) {
         matchingGroups.push(group.group_id);
       }
@@ -53,11 +96,11 @@ class SearchGroupScreen extends React.Component {
     this.setState({
       searchedForInput: true,
       searchInput: value,
-      matchingGroups
+      matchingGroups,
     });
   };
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     this.setState({ searchInput: event.target.value, searchedForInput: false });
     if (event.target.value === "") this.handleSearch("");
   };
@@ -76,7 +119,8 @@ class SearchGroupScreen extends React.Component {
       searchInput,
       searchedForInput,
       groups,
-      matchingGroups
+      category,
+      matchingGroups,
     } = this.state;
     const texts = Texts[language].searchGroupModal;
     return (
@@ -129,8 +173,25 @@ class SearchGroupScreen extends React.Component {
             </div>
           ) : (
             <div>
-              <div className="row no-gutters" id="searchGroupResultsContainer">
+              <div
+                style={{ marginTop: "0" }}
+                className="row no-gutters"
+                id="searchGroupResultsContainer"
+              >
                 <h1>{texts.results}</h1>
+              </div>
+              <div class="select-dropdown">
+                <select
+                  name="category"
+                  value={category}
+                  onChange={this.handleChange}
+                  required
+                >
+                  <option value="All">All</option>
+                  {this.state.categories.map((x) => (
+                    <option value={x}>{x}</option>
+                  ))}
+                </select>
               </div>
               <GroupList groupIds={matchingGroups} />
             </div>
@@ -143,7 +204,7 @@ class SearchGroupScreen extends React.Component {
 
 SearchGroupScreen.propTypes = {
   language: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
 };
 
 export default withLanguage(SearchGroupScreen);

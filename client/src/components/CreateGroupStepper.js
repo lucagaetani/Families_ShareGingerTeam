@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {
   withStyles,
   MuiThemeProvider,
-  createMuiTheme
+  createMuiTheme,
 } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -22,14 +22,14 @@ import Log from "./Log";
 
 const muiTheme = createMuiTheme({
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
   },
   overrides: {
     MuiStepLabel: {
       label: {
         fontFamily: "Roboto",
-        fontSize: "1.56rem"
-      }
+        fontSize: "1.56rem",
+      },
     },
     MuiStepIcon: {
       root: {
@@ -37,72 +37,72 @@ const muiTheme = createMuiTheme({
         width: "3rem",
         height: "3rem",
         "&$active": {
-          color: "#00838f"
+          color: "#00838f",
         },
         "&$completed": {
-          color: "#00838f"
-        }
-      }
+          color: "#00838f",
+        },
+      },
     },
     MuiButton: {
       root: {
         fontSize: "1.4rem",
-        fontFamily: "Roboto"
-      }
-    }
+        fontFamily: "Roboto",
+      },
+    },
   },
   palette: {
     secondary: {
-      main: "#c43e00"
-    }
-  }
+      main: "#c43e00",
+    },
+  },
 });
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    width: "95%"
+    width: "95%",
   },
   continueButton: {
     backgroundColor: "#00838f",
     marginTop: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     "&:hover": {
-      backgroundColor: "#00838f"
-    }
+      backgroundColor: "#00838f",
+    },
   },
   stepLabel: {
     root: {
       color: "#ffffff",
       "&$active": {
         color: "white",
-        fontWeight: 500
+        fontWeight: 500,
       },
       "&$completed": {
         color: theme.palette.text.primary,
-        fontWeight: 500
+        fontWeight: 500,
       },
       "&$alternativeLabel": {
         textAlign: "center",
         marginTop: 16,
-        fontSize: "5rem"
+        fontSize: "5rem",
       },
       "&$error": {
-        color: theme.palette.error.main
-      }
-    }
+        color: theme.palette.error.main,
+      },
+    },
   },
   cancelButton: {
     backgroundColor: "#ffffff",
     marginTop: theme.spacing.unit,
     color: "grey",
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
   },
   actionsContainer: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit * 2,
   },
   resetContainer: {
-    padding: theme.spacing.unit * 3
-  }
+    padding: theme.spacing.unit * 3,
+  },
 });
 
 class CreateGroupStepper extends React.Component {
@@ -113,26 +113,42 @@ class CreateGroupStepper extends React.Component {
     formIsValidated: false,
     name: "",
     description: "",
+    category: "",
+    categories: [],
     location: "",
     inviteIds: [],
     groupNames: [],
     groupVisibility: false,
     creatingGroup: false,
     contactType: "email",
-    contactInfo: ""
+    contactInfo: "",
   };
 
+  getCat() {
+    const { language } = this.props;
+    axios
+      .get("/api/groups/cat", { params: { language: language } })
+      .then((response) => {
+        var ris = response.data;
+        this.setState({ category: ris[0].cat[0], categories: ris[0].cat });
+      })
+      .catch((error) => {
+        Log.error(error);
+      });
+  }
+
   componentDidMount() {
+    this.getCat();
     axios
       .get("/api/groups", { params: { searchBy: "all" } })
-      .then(response => {
+      .then((response) => {
         const groups = response.data;
         this.setState({
           fetchedGroups: true,
-          groupNames: groups.map(group => group.name)
+          groupNames: groups.map((group) => group.name),
         });
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
         this.setState({ fetchedGroups: true, groupNames: [] });
       });
@@ -143,7 +159,7 @@ class CreateGroupStepper extends React.Component {
     document.removeEventListener("message", this.handleMessage, false);
   }
 
-  handleMessage = event => {
+  handleMessage = (event) => {
     const { activeStep } = this.state;
     const { history } = this.props;
     const data = JSON.parse(event.data);
@@ -167,13 +183,16 @@ class CreateGroupStepper extends React.Component {
       location,
       contactType,
       contactInfo,
-      name
+      name,
     } = this.state;
+    const category = this.state.categories.indexOf(this.state.category, 0);
+
     axios
       .post("/api/groups", {
         google_token: user.google_token,
         name,
         description,
+        category,
         location,
         background: "#00838F",
         contact_type: contactType,
@@ -181,13 +200,13 @@ class CreateGroupStepper extends React.Component {
         visible,
         owner_id: user.id,
         email: user.email,
-        invite_ids
+        invite_ids,
       })
-      .then(response => {
+      .then((response) => {
         Log.info(response);
         history.push("/myfamiliesshare");
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
         history.push("/myfamiliesshare");
       });
@@ -199,9 +218,9 @@ class CreateGroupStepper extends React.Component {
       if (activeStep === 4) {
         this.createGroup();
       }
-      this.setState(state => ({
+      this.setState((state) => ({
         activeStep: state.activeStep + 1,
-        formIsValidated: false
+        formIsValidated: false,
       }));
     } else {
       this.setState({ formIsValidated: true });
@@ -209,19 +228,19 @@ class CreateGroupStepper extends React.Component {
   };
 
   handleCancel = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1
+    this.setState((state) => ({
+      activeStep: state.activeStep - 1,
     }));
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { groupNames, groupVisibility } = this.state;
     const { name, value } = event.target;
     const { language } = this.props;
     if (name === "name") {
       const nameExists =
         groupNames.filter(
-          groupName => groupName.toUpperCase() === value.toUpperCase().trim()
+          (groupName) => groupName.toUpperCase() === value.toUpperCase().trim()
         ).length > 0;
       if (nameExists) {
         event.target.setCustomValidity(
@@ -277,7 +296,7 @@ class CreateGroupStepper extends React.Component {
     this.setState({ inviteModalIsOpen: false });
   };
 
-  handleInvite = inviteIds => {
+  handleInvite = (inviteIds) => {
     this.setState({ inviteModalIsOpen: false, inviteIds });
   };
 
@@ -287,12 +306,13 @@ class CreateGroupStepper extends React.Component {
     const {
       activeStep,
       name,
+      category,
       location,
       description,
       inviteModalIsOpen,
       groupVisibility,
       contactType,
-      contactInfo
+      contactInfo,
     } = this.state;
     const texts = Texts[language].createGroupStepper;
     switch (activeStep) {
@@ -315,13 +335,25 @@ class CreateGroupStepper extends React.Component {
               className="textareaInput form-control"
               placeholder={texts.description}
               value={description}
-              onChange={event => {
+              onChange={(event) => {
                 this.handleChange(event);
                 autosize(document.querySelectorAll("textarea"));
               }}
               required
             />
             <span className="invalid-feedback" id="descriptionErr" />
+            <div class="select-dropdown">
+              <select
+                name="category"
+                value={category}
+                onChange={this.handleChange}
+                required
+              >
+                {this.state.categories.map((x) => (
+                  <option value={x}>{x}</option>
+                ))}
+              </select>
+            </div>
           </div>
         );
       case 1:
@@ -334,14 +366,14 @@ class CreateGroupStepper extends React.Component {
               checked={groupVisibility}
               onClick={() =>
                 this.handleChange({
-                  target: { name: "groupVisibility", value: "" }
+                  target: { name: "groupVisibility", value: "" },
                 })
               }
               value="groupVisibility"
               classes={{
                 switchBase: classes.colorSwitchBase,
                 checked: classes.colorChecked,
-                bar: classes.colorBar
+                bar: classes.colorBar,
               }}
             />
           </div>
@@ -371,7 +403,7 @@ class CreateGroupStepper extends React.Component {
               onChange={this.handleChange}
               name="contactType"
             >
-              {contactTypes.map(d => (
+              {contactTypes.map((d) => (
                 <option key={d} value={d}>
                   {texts.contactTypes[d]}
                 </option>
@@ -416,12 +448,8 @@ class CreateGroupStepper extends React.Component {
     const { classes, language } = this.props;
     const texts = Texts[language].createGroupStepper;
     const steps = texts.stepLabels;
-    const {
-      activeStep,
-      formIsValidated,
-      creatingGroup,
-      fetchedGroups
-    } = this.state;
+    const { activeStep, formIsValidated, creatingGroup, fetchedGroups } =
+      this.state;
     const formClass = [];
     if (formIsValidated) {
       formClass.push("was-validated");
@@ -432,16 +460,16 @@ class CreateGroupStepper extends React.Component {
     return fetchedGroups && !creatingGroup ? (
       <div className={classes.root}>
         <form
-          ref={form => {
+          ref={(form) => {
             this.formEl = form;
           }}
-          onSubmit={event => event.preventDefault()}
+          onSubmit={(event) => event.preventDefault()}
           className={formClass}
           noValidate
         >
           <MuiThemeProvider theme={muiTheme}>
             <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map(label => {
+              {steps.map((label) => {
                 return (
                   <Step key={label}>
                     <StepLabel className={classes.stepLabel}>{label}</StepLabel>
@@ -485,6 +513,6 @@ class CreateGroupStepper extends React.Component {
 CreateGroupStepper.propTypes = {
   classes: PropTypes.object,
   history: PropTypes.object,
-  language: PropTypes.string
+  language: PropTypes.string,
 };
 export default withRouter(withLanguage(withStyles(styles)(CreateGroupStepper)));
