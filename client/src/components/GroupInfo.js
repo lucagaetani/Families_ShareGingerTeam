@@ -13,11 +13,14 @@ import ConfirmDialog from "./ConfirmDialog";
 import LoadingSpinner from "./LoadingSpinner";
 import Log from "./Log";
 
+var images = [];
+var isAdmin = false;
+
 class GroupInfo extends React.Component {
   constructor(props) {
     super(props);
     const { group } = this.props;
-    this.state = { group, fetchedGroupInfo: false };
+    this.state = { group, fetchedGroupInfo: false, empty: true };
   }
 
   componentDidMount() {
@@ -25,18 +28,19 @@ class GroupInfo extends React.Component {
     const { group_id: groupId } = group;
     axios
       .get(`/api/groups/${groupId}/settings`)
-      .then(response => {
+      .then((response) => {
         group.settings = response.data;
         let groupAccepted = false;
         let userAccepted = false;
         let userIsAdmin = false;
         const userId = JSON.parse(localStorage.getItem("user")).id;
-        group.members.forEach(member => {
+        group.members.forEach((member) => {
           if (member.user_id === userId) {
             const { group_accepted, user_accepted, admin } = member;
             groupAccepted = group_accepted;
             userAccepted = user_accepted;
             userIsAdmin = admin;
+            isAdmin = admin;
           }
         });
         this.setState({
@@ -45,10 +49,27 @@ class GroupInfo extends React.Component {
           userIsAdmin,
           confirmIsOpen: false,
           fetchedGroupInfo: true,
-          group
+          group,
         });
       })
-      .catch(error => {
+      .catch((error) => {
+        Log.error(error);
+      });
+    axios
+      .get(`/api/groups/${groupId}/carousel`)
+      .then((response) => {
+        if (response.data.length > 0) {
+          response.data.forEach(function (arrayItem) {
+            var path = arrayItem.path;
+            var image_id = arrayItem.image_id;
+            var owner_id = arrayItem.owner_id;
+            images.push({ path, image_id, owner_id });
+          });
+          this.setState({ empty: false });
+        } else {
+        }
+      })
+      .catch((error) => {
         Log.error(error);
       });
   }
@@ -60,14 +81,14 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .patch(`/api/users/${userId}/groups/${groupId}`, {
-        patch: { user_accepted: true }
+        patch: { user_accepted: true },
       })
-      .then(response => {
+      .then((response) => {
         Log.info(response);
         this.setState({ userAccepted: true });
         enableNavigation();
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
       });
   };
@@ -78,13 +99,13 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .post(`/api/users/${userId}/groups`, {
-        group_id
+        group_id,
       })
-      .then(response => {
+      .then((response) => {
         Log.info(response);
         this.setState({ userAccepted: true });
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
       });
   };
@@ -96,11 +117,11 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .delete(`/api/users/${userId}/groups/${groupId}`)
-      .then(response => {
+      .then((response) => {
         Log.info(response);
         history.replace("/myfamiliesshare");
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
       });
   };
@@ -111,16 +132,16 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .delete(`/api/users/${userId}/groups/${groupId}`)
-      .then(response => {
+      .then((response) => {
         Log.info(response);
         this.setState({ userAccepted: false });
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
       });
   };
 
-  handleConfirmClose = choice => {
+  handleConfirmClose = (choice) => {
     if (choice === "agree") {
       this.handleLeave();
     }
@@ -131,7 +152,7 @@ class GroupInfo extends React.Component {
     const { language, enqueueSnackbar } = this.props;
     const texts = Texts[language].groupInfo;
     const {
-      group: { contact_type: contactType, contact_info: contactInfo }
+      group: { contact_type: contactType, contact_info: contactInfo },
     } = this.state;
     if (window.isNative) {
       if (contactType === "phone") {
@@ -145,7 +166,7 @@ class GroupInfo extends React.Component {
       }
     } else {
       enqueueSnackbar(texts.contactMessage, {
-        variant: "info"
+        variant: "info",
       });
     }
   };
@@ -192,15 +213,17 @@ class GroupInfo extends React.Component {
       userIsAdmin,
       groupAccepted,
       userAccepted,
-      confirmIsOpen
+      confirmIsOpen,
+      empty,
     } = this.state;
     const {
       name: groupName,
       group_id: groupId,
       background: groupBackground,
       description: groupInfo,
-      contact_info: contactInfo
+      contact_info: contactInfo,
     } = group;
+
     const texts = Texts[language].groupInfo;
     return fetchedGroupInfo ? (
       <div id="groupInfoContainer">
@@ -222,10 +245,20 @@ class GroupInfo extends React.Component {
                 cardHeader: texts.startGuideHeader,
                 cardInfo: texts.startGuideInfo,
                 learnMore: true,
-                link: `${match.url}/start-up-guide`
+                link: `${match.url}/start-up-guide`,
               }}
             />
           )}
+
+          {!empty ? (
+            <div>
+              <Carousel images={images} />
+              <p className="flavor-text">React carousel</p>
+            </div>
+          ) : (
+            <div />
+          )}
+
           {!(userAccepted && groupAccepted) && (
             <CopyToClipboard text={contactInfo}>
               <button
@@ -258,5 +291,85 @@ GroupInfo.propTypes = {
   language: PropTypes.string,
   history: PropTypes.object,
   match: PropTypes.object,
-  enqueueSnackbar: PropTypes.func
+  enqueueSnackbar: PropTypes.func,
 };
+
+class Carousel extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      currentIndex: 0
+    };
+  }
+
+  handleDelete = (deleteId, owner_id) => {
+    axios
+      .delete(`/api/groups/${owner_id}/carousel/${deleteId}`)
+      .then((response) => {
+        Log.info(response);
+        window.location.reload();
+      })
+      .catch((error) => {
+        Log.error(error);
+      });
+  };
+
+  render() {
+    const { currentIndex } = this.state;
+    return (
+      <div className="carousel__wrapper">
+        <div className="carousel__container">
+          {images.map((img, index) => {
+            let className = "carousel__image";
+            if (index === currentIndex) className += " active";
+
+            return (
+              <img
+                alt="carousel"
+                src={img.path}
+                className={className}
+                key={`img-${index}`}
+              />
+            );
+          })}
+        </div>
+        <div className="carousel__controls">
+          <button className="carousel__button" onClick={this.showPrevSet}>
+            <i className="fa fa-arrow-left"></i>
+          </button>
+          <button className="carousel__button" onClick={this.showNextSet}>
+            <i className="fa fa-arrow-right"></i>
+          </button>
+          {isAdmin ? (
+            <button className="carousel__button" onClick={this.deleteIt}>
+              <i className="fas fa-trash"></i>
+            </button>
+          ) : (
+            <div />
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  showPrevSet = () => {
+    const currentIndex =
+      (this.state.currentIndex - 1 + this.props.images.length) %
+      this.props.images.length;
+    this.setState({ currentIndex });
+  };
+
+  showNextSet = () => {
+    const currentIndex =
+      (this.state.currentIndex + 1) % this.props.images.length;
+    this.setState({ currentIndex });
+  };
+
+  deleteIt = () => {
+    this.handleDelete(
+      images[this.state.currentIndex].image_id,
+      images[this.state.currentIndex].owner_id
+    );
+  };
+}

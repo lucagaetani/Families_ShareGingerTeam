@@ -29,7 +29,7 @@ class GroupHeader extends React.Component {
     this.setState({ confirmDialogIsOpen: true });
   };
 
-  handleConfirmDialogClose = choice => {
+  handleConfirmDialogClose = (choice) => {
     if (choice === "agree") {
       this.handleDelete();
       this.setState({ confirmDialogIsOpen: false });
@@ -38,27 +38,45 @@ class GroupHeader extends React.Component {
     }
   };
 
+  handleImageUpload = async (event) => {
+    const { groupId } = this.props;
+    if (event.target.files) {
+      var photos = [...event.target.files].map((file) => {
+        return { photo: file };
+      });
+    }
+    if (photos.length > 0) {
+      const bodyFormData = new FormData();
+      for (let i = 0; i < photos.length; i += 1) {
+        bodyFormData.append("photo", photos[i].photo);
+      }
+      axios
+        .post(`/api/groups/${groupId}/carousel`, bodyFormData)
+        .then((response) => {
+          Log.info(response);
+          window.location.reload();
+        })
+        .catch((error) => {
+          Log.error(error);
+        });
+    }
+  };
+
   handleDelete = () => {
     const { groupId, history } = this.props;
     axios
       .delete(`/api/groups/${groupId}`)
-      .then(response => {
+      .then((response) => {
         Log.info(response);
         history.push("/myfamiliesshare");
       })
-      .catch(error => {
+      .catch((error) => {
         Log.error(error);
       });
   };
 
   render() {
-    const {
-      groupLogo,
-      groupName,
-      groupBackground,
-      language,
-      userIsAdmin
-    } = this.props;
+    const { groupName, groupBackground, language, userIsAdmin } = this.props;
     const { confirmDialogIsOpen } = this.state;
     const texts = Texts[language].groupHeader;
     return (
@@ -82,7 +100,7 @@ class GroupHeader extends React.Component {
                 <i className="fas fa-arrow-left" />
               </button>
             </div>
-            <div className="col-5-10" />
+            <div className="col-4-10" />
             <div className="col-1-10">
               {userIsAdmin ? (
                 <button
@@ -92,6 +110,26 @@ class GroupHeader extends React.Component {
                 >
                   <i className="fas fa-trash-alt" />
                 </button>
+              ) : (
+                <div />
+              )}
+            </div>
+            <div className="col-1-10">
+              {userIsAdmin ? (
+                <label
+                  htmlFor="uploadPhotoInput"
+                  className="transparentButton center"
+                >
+                  <i role="button" tabIndex="-1" className="fas fa-camera" />
+                  <input
+                    id="uploadPhotoInput"
+                    type="file"
+                    accept="image/*"
+                    name="photo"
+                    multiple
+                    onChange={this.handleImageUpload}
+                  />
+                </label>
               ) : (
                 <div />
               )}
@@ -124,7 +162,6 @@ class GroupHeader extends React.Component {
             </div>
           </div>
           <h1>{groupName}</h1>
-          <img src={groupLogo} alt="Group Logo" className="groupImage" />
         </div>
       </React.Fragment>
     );
@@ -133,12 +170,11 @@ class GroupHeader extends React.Component {
 
 GroupHeader.propTypes = {
   groupId: PropTypes.string,
-  groupLogo: PropTypes.string,
   groupBackground: PropTypes.string,
   groupName: PropTypes.string,
   userIsAdmin: PropTypes.bool,
   language: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
 };
 
 export default withRouter(withLanguage(GroupHeader));
