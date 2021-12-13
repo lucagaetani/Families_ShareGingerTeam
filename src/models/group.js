@@ -47,7 +47,11 @@ const groupSchema = new mongoose.Schema({
   contact_type: {
     type: String,
     required: true
-  }
+  },
+  category: {
+    type: Number,
+    required: true
+  },
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 groupSchema.index({ name: 1 })
