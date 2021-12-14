@@ -75,11 +75,6 @@ class LogInScreen extends React.Component {
             </div>
           </div>
           <div className="row no-gutters">
-            <h1 className="orLogInText horizontalCenter">
-              {texts.orLogInWith}
-            </h1>
-          </div>
-          <div className="row no-gutters">
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={renderProps => (
@@ -94,7 +89,7 @@ class LogInScreen extends React.Component {
                   }
                   className="logInButton googleColor horizontalCenter"
                 >
-                  {texts.google}
+                  GOOGLE LOGIN
                 </button>
               )}
               buttonText="Login"
@@ -126,7 +121,7 @@ class LogInScreen extends React.Component {
         </div>
         <div
           className="row no-gutters"
-          style={{ marginTop: "3rem", marginBottom: "6rem" }}
+          style={{ marginTop: "3rem", marginBottom: "6rem", zIndex: "2", position: "relative"}}
         >
           <div className="horizontalCenter">
             <p className="dontHaveAccountText">{texts.dontHaveAccount}</p>
@@ -135,6 +130,8 @@ class LogInScreen extends React.Component {
             </Link>
           </div>
         </div>
+        <ul class="bg-bubbles">
+        </ul>
       </React.Fragment>
     );
   }

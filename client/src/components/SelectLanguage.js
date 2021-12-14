@@ -18,11 +18,13 @@ const SelectLanguage = ({ language, updateLanguage }) => {
     MozBoxShadow: "none"
   };
   const menuItemStyle = {
-    padding: "0.3rem 0"
+    padding: "0.3rem 0",
+    backgroundColor: "transparent",
   };
   const languageIconStyle = {
     position: "relative",
-    left: "0"
+    left: "0",
+    backgroundColor: "transparent",
   };
   const appLanguages = process.env.REACT_APP_CITYLAB_LANGUAGES.split(' ');
 
@@ -42,7 +44,7 @@ const SelectLanguage = ({ language, updateLanguage }) => {
   return (
     <Dropdown trigger={["hover", "click"]} overlay={menu}>
       <div className="ant-dropdown-link">
-        <LanguageIcon style={menuItemStyle} language={language} />
+        <LanguageIcon style={{padding: "0 !important"}} language={language} />
       </div>
     </Dropdown>
   );

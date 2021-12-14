@@ -28,6 +28,8 @@ const SignUpScreen = ({ signingUp, history, language }) => {
         </div>
         <SignUpForm />
       </div>
+      <ul class="bg-bubbles">
+      </ul>
     </React.Fragment>
   );
 };

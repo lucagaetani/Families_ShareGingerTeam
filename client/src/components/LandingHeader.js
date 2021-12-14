@@ -3,7 +3,7 @@ import Images from "../Constants/Images";
 
 const LandingHeader = () => {
   return (
-    <div className="row no-gutters" id="landingHeaderContainer">
+    <div className="row no-gutters" id="landingHeaderContainer" style={{marginTop: "5.2rem"}}>
       <img src={Images.citylabImage} alt="city logo" className="cityImage" />
       <div className="center" id="landingHeaderBrandContainer">
         <img

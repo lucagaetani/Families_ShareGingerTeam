@@ -204,7 +204,7 @@ class MyFamiliesShareHeader extends React.Component {
     const menuItem = { height: "5.5rem" };
     const menuStyle = { borderTop: "2.5rem solid rgba(0,0,0,0.5)" };
     const menuItemWithLine = {
-      borderBottom: "1px solid rgba(0,0,0,0.1)",
+      borderBottom: "1px solid rgba(255 255 255 / 47%)",
       height: "5.5rem"
     };
     let isManager = false;
@@ -243,10 +243,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-home" />
+                  <i className="fas fa-home" style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.homeButton}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.homeButton}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -258,10 +258,10 @@ class MyFamiliesShareHeader extends React.Component {
               >
                 <div className="row no-gutters">
                   <div className="col-1-4">
-                    <i className="fas fa-users" />
+                    <i className="fas fa-users" style={{color: "#ffffff"}}/>
                   </div>
                   <div className="col-3-4">
-                    <h1 className="">{texts.community}</h1>
+                    <h1 className="" style={{color: "#ffffff"}}>{texts.community}</h1>
                   </div>
                 </div>
               </Menu.Item>
@@ -273,10 +273,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-user" />
+                  <i className="fas fa-user" style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.myProfile}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.myProfile}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -287,10 +287,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-calendar-alt" />
+                  <i className="fas fa-calendar-alt" style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.myCalendar}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.myCalendar}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -302,10 +302,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-plus" />
+                  <i className="fas fa-plus" style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.createGroup}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.createGroup}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -317,10 +317,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-search" />
+                  <i className="fas fa-search" style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.searchGroup}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.searchGroup}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -333,10 +333,10 @@ class MyFamiliesShareHeader extends React.Component {
               >
                 <div className="row no-gutters">
                   <div className="col-1-4">
-                    <i className="fas fa-user-plus" />
+                    <i className="fas fa-user-plus" style={{color: "#ffffff"}}/>
                   </div>
                   <div className="col-3-4">
-                    <h1>{texts.inviteFriends}</h1>
+                    <h1 style={{color: "#ffffff"}}>{texts.inviteFriends}</h1>
                   </div>
                 </div>
               </Menu.Item>
@@ -348,10 +348,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-question-circle " />
+                  <i className="fas fa-question-circle " style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.faqs}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.faqs}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -363,10 +363,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-book " />
+                  <i className="fas fa-book " style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.walkthrough}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.walkthrough}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -378,10 +378,10 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-info-circle " />
+                  <i className="fas fa-info-circle " style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.about}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.about}</h1>
                 </div>
               </div>
             </Menu.Item>
@@ -392,25 +392,25 @@ class MyFamiliesShareHeader extends React.Component {
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-star " />
+                  <i className="fas fa-star " style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1 className="">{texts.rating}</h1>
+                  <h1 className="" style={{color: "#ffffff"}}>{texts.rating}</h1>
                 </div>
               </div>
             </Menu.Item>
             <Menu.Item
-              style={menuItem}
+              style={{paddingTop: "1rem"}}
               key="signout"
               className="drawerButtonContainer"
               onClick={this.handleDrawerClick}
             >
               <div className="row no-gutters">
                 <div className="col-1-4">
-                  <i className="fas fa-door-open" />
+                  <i className="fas fa-door-open" style={{color: "#ffffff"}}/>
                 </div>
                 <div className="col-3-4">
-                  <h1>{texts.signOut}</h1>
+                  <h1 style={{color: "#ffffff"}}>{texts.signOut}</h1>
                 </div>
               </div>
             </Menu.Item>

@@ -233,7 +233,6 @@ class SignUpForm extends React.Component {
           onChange={this.handleChange}
           value={phoneNumber}
         />
-        <div className="line horizontalCenter" />
         <input
           type="email"
           placeholder={texts.email}
@@ -265,11 +264,10 @@ class SignUpForm extends React.Component {
           required
           value={passwordConfirm}
         />
-        <span>{texts.passwordPrompt}</span>
+        <span style={{ margin: "auto", textAlign: "center", display: "block", color: "#ffffffb8"}}>{texts.passwordPrompt}</span>
         <span className="invalid-feedback" id="passwordConfirmErr" />
-        <div className="line horizontalCenter" />
-        <div className="row no-gutters" style={{ alignItems: "center" }}>
-          <h1 className="profileToggleText">{texts.profileVisibility}</h1>
+        <div className="row no-gutters" style={{ alignItems: "center", margin: "auto", textAlign: "center", display: "block" }}>
+          <h1 className="profileToggleText" style={{ color: "#ffffff"}}>{texts.profileVisibility}</h1>
           <MuiThemeProvider theme={theme}>
             <Switch
               color="secondary"
@@ -278,9 +276,10 @@ class SignUpForm extends React.Component {
             />
           </MuiThemeProvider>
 
-          <span>{texts.visibilityPrompt}</span>
+          
         </div>
-        <div className="acceptTermsContainer row no-gutters">
+        <span style={{ margin: "auto", textAlign: "center", display: "block", color: "#ffffffb8"}}>{texts.visibilityPrompt}</span>
+        <div className="acceptTermsContainer row no-gutters" style={{ margin: "auto", textAlign: "center", width: "40%"}}>
           <div className="col-2-10">
             <img
               className="policyIcon center"
@@ -318,7 +317,7 @@ class SignUpForm extends React.Component {
             type="submit"
             style={
               this.filledInput()
-                ? { backgroundColor: "#00838F", color: "#ffffff" }
+                ? {}
                 : {}
             }
             className="signUpConfirmButton horizontalCenter"

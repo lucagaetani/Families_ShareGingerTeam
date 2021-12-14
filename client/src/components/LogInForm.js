@@ -130,7 +130,7 @@ class LogInForm extends React.Component {
               type="submit"
               style={
                 email && password
-                  ? { backgroundColor: "#00838F", color: "#ffffff" }
+                  ? {}
                   : {}
               }
               className="logInConfirmButton horizontalCenter"

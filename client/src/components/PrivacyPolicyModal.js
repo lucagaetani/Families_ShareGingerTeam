@@ -38,9 +38,12 @@ class PrivacyPolicyModal extends React.Component {
         left: "50%",
         transform: "translate(-50%,-50%)",
         backgroundColor: "#ffffff",
-        width: "100%",
-        height: "100%",
-        overflow: "hidden"
+        width: "102%",
+        height: "102%",
+        overflow: "hidden",
+        border: "0px",
+        borderRadius: "4px"
+
       }
     };
     return (
