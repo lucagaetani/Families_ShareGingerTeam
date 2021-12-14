@@ -18,7 +18,7 @@ Therefore, the objectives are:
 
 First of all download the project or clone the repository.
 We recommend you to use [nvm](https://github.com/nvm-sh/nvm) to select the right version of nodejs to use.
-To run this project you need to use nodejs version 10.14.2, run your cmd as administrator:
+To run this project you need to use nodejs version 10.14.2, and supervisor, run your cmd as administrator:
 
 ```sh
 nvm install 10.14.2 64
@@ -31,6 +31,9 @@ Now you have to install all the packages in the main folder (server) and in the 
 ```sh
 npm install
 ```
+
+In order to use the software you need to have MongoDB Compass installed or to create a mongodb database in the cloud. You need to create a new document in the database called "Category". It will be necessary to manually add all the categories in the various languages that we intend to implement, as seen in the image.
+![alt text](https://github.com/lucagaetani/Families_ShareGingerTeam/blob/main/category.png?raw=true)
 
 Remember that you have to edit the two .env files as well. as described on the original project page. 
 After that, to start the project, go to the main folder (server) and run:
