@@ -42,6 +42,9 @@ After that, to start the project, go to the main folder (server) and run:
 ```sh
 npm run dev
 ```
+
+If there are any problems with connecting to the database, disable the firewall.
+
 ## License
 
 MIT
