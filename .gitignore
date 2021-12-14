@@ -1,5 +1,8 @@
 node_modules/
 build/
+images/profiles/*
+images/announcements/*
+images/carousel/*
 .env
 .nyc_output
 *.csv
