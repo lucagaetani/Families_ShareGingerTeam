@@ -33,6 +33,7 @@ npm install
 ```
 
 In order to use the software you need to have MongoDB Compass installed or to create a mongodb database in the cloud. You need to create a new document in the database called "Category". It will be necessary to manually add all the categories in the various languages that we intend to implement, as seen in the image.
+
 ![alt text](https://github.com/lucagaetani/Families_ShareGingerTeam/blob/main/category.png?raw=true)
 
 Remember that you have to edit the two .env files as well. as described on the original project page. 
