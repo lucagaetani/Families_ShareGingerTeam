@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Fab from "@material-ui/core/Fab";
 import { withStyles } from "@material-ui/core/styles";
 import * as path from "lodash.get";
-import { withSnackbar } from "notistack";
+import { withSnackbar, useSnackbar  } from "notistack";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
@@ -333,14 +333,25 @@ class ActivityScreen extends React.Component {
     });
   };
 
+handleClick = (event) =>{
+  const modal = document.querySelector(".modal")
+  const closeBtn = document.querySelector(".close")
+  modal.style.display = "block";
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  })
+}
+
   handleNotification = () => {
-    const { groupId } = this.state;
+    const { groupId} = this.state;
     const user_id = JSON.parse(localStorage.getItem("user")).id;
     const bodyFormData = new FormData();
+	console.log("fessa");
     bodyFormData.append("user_id", user_id);
     axios
       .post(`/api/groups/${groupId}/confact`, bodyFormData)
       .then((response) => {
+		  this.handleClick();
         Log.info(response);
       })
       .catch((error) => {
@@ -474,6 +485,16 @@ class ActivityScreen extends React.Component {
                 <i className="fas fa-arrow-left" />
               </button>
             </div>
+			<div class="modal">
+   <div class="modal_content">
+     <p>Notification sent!</p>
+	 <span class="close"
+	 style={{float: "none"}}
+	 >
+	 <button class="pulsantino">Close</button>
+	 </span>
+   </div>
+</div>
             <div className="col-5-10">
               <h1 className="center">{activity.name}</h1>
             </div>

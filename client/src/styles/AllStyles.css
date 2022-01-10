@@ -3475,3 +3475,35 @@ a:active {
   border-right: 5px solid transparent;
   border-top: 5px solid #aaa;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modal_content {
+  margin: 44vh 10px 10px 44vw;
+  color: black;
+  text-align: center;
+  background-color: white;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.pulsantino {
+	    width: 100% !important;
+    border-radius: 0px 0px 10px 10px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

@@ -24,6 +24,7 @@ class GroupInfo extends React.Component {
   }
 
   componentDidMount() {
+    images = [];
     const { group } = this.state;
     const { group_id: groupId } = group;
     axios
